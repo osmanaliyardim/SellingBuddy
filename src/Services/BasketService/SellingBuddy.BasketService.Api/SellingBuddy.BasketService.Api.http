@@ -1,0 +1,6 @@
+@SellingBuddy.BasketService.Api_HostAddress = http://localhost:5011
+
+GET {{SellingBuddy.BasketService.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
