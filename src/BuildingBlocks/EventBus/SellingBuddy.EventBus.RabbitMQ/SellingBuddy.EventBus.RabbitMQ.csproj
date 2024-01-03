@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Polly" Version="8.2.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SellingBuddy.EventBus.Base\SellingBuddy.EventBus.Base.csproj" />
+  </ItemGroup>
+
 </Project>
