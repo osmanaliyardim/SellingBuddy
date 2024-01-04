@@ -8,9 +8,9 @@ public interface IEventBus : IDisposable
 
     void Subscribe<T, TH>() 
         where T : IntegrationEvent
-        where TH : IntegrationEventHandler;
+        where TH : IIntegrationEventHandler<T>;
 
     void UnSubscribe<T, TH>()
         where T : IntegrationEvent
-        where TH : IntegrationEventHandler;
+        where TH : IIntegrationEventHandler<T>;
 }

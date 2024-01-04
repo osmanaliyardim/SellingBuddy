@@ -76,9 +76,9 @@ public abstract class BaseEventBus : IEventBus
 
     public abstract void Subscribe<T, TH>()
         where T : IntegrationEvent
-        where TH : IntegrationEventHandler;
+        where TH : IIntegrationEventHandler<T>;
 
     public abstract void UnSubscribe<T, TH>()
         where T : IntegrationEvent
-        where TH : IntegrationEventHandler;
+        where TH : IIntegrationEventHandler<T>;
 }
