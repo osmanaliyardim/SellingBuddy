@@ -30,7 +30,8 @@ public class InMemoryEventBusSubscriptionManager : IEventBusSubscriptionManager
 
         AddSubscription(typeof(TH), eventName);
 
-        if (!_eventTypes.Contains(typeof(T))){
+        if (!_eventTypes.Contains(typeof(T)))
+        {
             _eventTypes.Add(typeof(T));
         }
     }
