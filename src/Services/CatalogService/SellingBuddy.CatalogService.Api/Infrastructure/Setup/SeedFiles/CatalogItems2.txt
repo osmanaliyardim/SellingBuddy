@@ -1,0 +1,4 @@
+﻿CatalogTypeName,CatalogBrandName,Description,Name,Price,PictureFileName,availablestock,onreorder
+T-Shirt,.NET,".NET Bot Black Hoodie, and more",".NET Bot Black Hoodie",19.5,1.png,100,false
+Mug,.NET,".NET Black & White Mug",".NET Black & White Mug",8.50,2.png,89,true
+Sheet,Other,"Roslyn Red Sheet","Roslyn Red Sheet",8.5,5.png,55,false
