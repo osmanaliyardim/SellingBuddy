@@ -1,7 +1,35 @@
+using SellingBuddy.EventBus.Base;
+using SellingBuddy.EventBus.Base.Abstraction;
+using SellingBuddy.EventBus.Factory;
+using SellingBuddy.PaymentService.Api.IntegrationEvents.EventHandlers;
+using SellingBuddy.PaymentService.Api.IntegrationEvents.Events;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddLogging(configure =>
+{
+    configure.AddConsole();
+    configure.AddDebug();
+});
+
+builder.Services.AddTransient<OrderStartedIntegrationEventHandler>();
+
+builder.Services.AddSingleton<IEventBus>(sp =>
+{
+    EventBusConfig config = new()
+    {
+        ConnectionRetryCount = 5,
+        EventNameSuffix = "IntegrationEvent",
+        SubscriberClientAppName = "PaymentService",
+        EventBusType = EventBusType.RabbitMQ
+    };
+
+    return EventBusFactory.Create(config, sp);
+});
+
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -16,29 +44,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.MapControllers();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+IEventBus eventBus = app.Services.GetRequiredService<IEventBus>();
+eventBus.Subscribe<OrderStartedIntegrationEvent, OrderStartedIntegrationEventHandler>();
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

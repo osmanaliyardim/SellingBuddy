@@ -66,12 +66,17 @@ public class EventBusRabbitMQ : BaseEventBus
             properties.DeliveryMode = 2; // Persistence
 
             // Ensure if queue exists while publishing
-            consumerChannel.QueueDeclare(
-                    queue: GetSubName(eventName),
-                    durable: true,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null);
+            //consumerChannel.QueueDeclare(
+            //        queue: GetSubName(eventName),
+            //        durable: true,
+            //        exclusive: false,
+            //        autoDelete: false,
+            //        arguments: null);
+
+            //consumerChannel.QueueBind(
+            //        queue: GetSubName(eventName),
+            //        exchange: EventBusConfig.DefaultTopicName,
+            //        routingKey: eventName);
 
             consumerChannel.BasicPublish(
                     exchange: EventBusConfig.DefaultTopicName,
