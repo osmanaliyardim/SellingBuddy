@@ -1,0 +1,62 @@
+{
+  "Routes": [
+    {
+      "UseServiceDiscovery": true,
+      "ServiceName": "CatalogService",
+      "DownstreamPathTemplate": "/api/v1/catalog/{anything}",
+      "DownstreamScheme": "http",
+
+      "UpstreamPathTemplate": "/catalog/{anything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+      "UpstreamScheme": "http"
+    },
+    {
+      "UseServiceDiscovery": true,
+      "ServiceName": "IdentityService",
+      "DownstreamPathTemplate": "/api/auth/{anything}",
+      "DownstreamScheme": "http",
+
+      "UpstreamPathTemplate": "/auth/{anything}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamScheme": "http"
+    },
+    {
+      "UseServiceDiscovery": true,
+      "ServiceName": "BasketService",
+      "DownstreamPathTemplate": "/api/v1/basket/{anything}",
+      "DownstreamScheme": "http",
+
+      "UpstreamPathTemplate": "/basket/{anything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+      "UpstreamScheme": "http"
+    },
+    {
+      "UseServiceDiscovery": true,
+      "ServiceName": "OrderService",
+      "DownstreamPathTemplate": "/api/v1/order/{anything}",
+      "DownstreamScheme": "http",
+
+      "UpstreamPathTemplate": "/order/{anything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+      "UpstreamScheme": "http"
+    },
+    {
+      "UseServiceDiscovery": true,
+      "ServiceName": "PaymentService",
+      "DownstreamPathTemplate": "/api/v1/payment/{anything}",
+      "DownstreamScheme": "http",
+
+      "UpstreamPathTemplate": "/payment/{anything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UpstreamScheme": "http"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5000",
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
+    }
+  }
+}
