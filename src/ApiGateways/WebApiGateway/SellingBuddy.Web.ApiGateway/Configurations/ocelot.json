@@ -27,7 +27,7 @@
       "DownstreamScheme": "http",
 
       "UpstreamPathTemplate": "/basket/{anything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Delete", "Put" ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Delete" ],
       "UpstreamScheme": "http"
     },
     {

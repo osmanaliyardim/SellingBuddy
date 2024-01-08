@@ -20,7 +20,7 @@ public class RabbitMQPersistentConnection : IDisposable
         _retryCount = retryCount;
     }
 
-    public bool IsConnected => rabbitMQConnection != null & rabbitMQConnection.IsOpen;
+    public bool IsConnected => rabbitMQConnection != null && rabbitMQConnection.IsOpen;
 
     public IModel CreateModel()
     {
