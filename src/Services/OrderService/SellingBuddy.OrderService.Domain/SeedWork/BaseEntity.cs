@@ -12,7 +12,7 @@ public abstract class BaseEntity
 
     private List<INotification> domainEvents;
 
-    public IReadOnlyCollection<INotification> DomainEvent => domainEvents?.AsReadOnly();
+    public IReadOnlyCollection<INotification> DomainEvents => domainEvents?.AsReadOnly();
 
     public void AddDomainEvent(INotification eventItem)
     {
