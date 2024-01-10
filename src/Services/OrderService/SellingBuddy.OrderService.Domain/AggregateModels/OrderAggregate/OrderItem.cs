@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SellingBuddy.OrderService.Domain.SeedWork;
+using System.ComponentModel.DataAnnotations;
 
 namespace SellingBuddy.OrderService.Domain.AggregateModels.OrderAggregate;
 
-public class OrderItem
+public class OrderItem : BaseEntity, IValidatableObject
 {
     public int ProductId { get; set; }
 
