@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using SellingBuddy.CatalogService.Api.Extensions;
 using SellingBuddy.CatalogService.Api.Infrastructure;
 using SellingBuddy.CatalogService.Api.Infrastructure.Context;
@@ -41,7 +42,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "Pics")),
+    RequestPath = "/pics"
+});
 
 app.UseAuthorization();
 
