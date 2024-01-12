@@ -17,7 +17,7 @@ builder.Services.ConfigureAuth(builder.Configuration);
 builder.Services.AddSingleton(sp => sp.ConfigureRedis(builder.Configuration));
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.AddTransient<IBasketRepository, BasketRepository>();
 builder.Services.AddTransient<IIdentityService, IdentityService>();
 
 builder.Services.AddSingleton<IEventBus>(sp =>

@@ -15,7 +15,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         _dbContext = dbContext;
     }
 
-    public IUnitOfWork UnitOfWork { get; }
+    public IUnitOfWork UnitOfWork => _dbContext;
 
     public virtual async Task<T> AddAsync(T entity)
     {
