@@ -1,4 +1,3 @@
-using Microsoft.IdentityModel.Tokens;
 using SellingBuddy.BasketService.Api.Core.Application.Repository;
 using SellingBuddy.BasketService.Api.Core.Application.Services;
 using SellingBuddy.BasketService.Api.Extensions;
