@@ -5,7 +5,7 @@ using SellingBuddy.CatalogService.Api.Infrastructure.Context;
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
     Args = args,
-    ApplicationName = typeof(Program).Assembly.FullName,
+    ApplicationName = typeof(Program).Assembly.GetName().Name,
     ContentRootPath = Directory.GetCurrentDirectory(),
     WebRootPath = "Pics",
     EnvironmentName = Environments.Development // -> Staging -> Production

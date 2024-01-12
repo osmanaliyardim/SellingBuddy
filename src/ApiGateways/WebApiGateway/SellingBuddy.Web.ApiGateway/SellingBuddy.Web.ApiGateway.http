@@ -1,6 +1,0 @@
-@SellingBuddy.Web.ApiGateway_HostAddress = http://localhost:5076
-
-GET {{SellingBuddy.Web.ApiGateway_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

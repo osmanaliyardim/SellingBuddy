@@ -8,8 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Consul" Version="1.7.14.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\SellingBuddy.EventBus.Base\SellingBuddy.EventBus.Base.csproj" />
+    <ProjectReference Include="..\SellingBuddy.OrderService.Application\SellingBuddy.OrderService.Application.csproj" />
+    <ProjectReference Include="..\SellingBuddy.OrderService.Domain\SellingBuddy.OrderService.Domain.csproj" />
+    <ProjectReference Include="..\SellingBuddy.OrderService.Infrastructure\SellingBuddy.OrderService.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
