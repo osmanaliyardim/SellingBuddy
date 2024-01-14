@@ -98,6 +98,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "graylog", "graylog", "{A67B
 		docker-compose-files\graylog\docker-compose.yml = docker-compose-files\graylog\docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FC345E69-DF33-4C2F-8570-E02DFC9CFDE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -168,6 +170,10 @@ Global
 		{755C2774-667E-4B37-A466-3DB607E05C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{755C2774-667E-4B37-A466-3DB607E05C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{755C2774-667E-4B37-A466-3DB607E05C66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC345E69-DF33-4C2F-8570-E02DFC9CFDE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC345E69-DF33-4C2F-8570-E02DFC9CFDE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC345E69-DF33-4C2F-8570-E02DFC9CFDE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC345E69-DF33-4C2F-8570-E02DFC9CFDE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

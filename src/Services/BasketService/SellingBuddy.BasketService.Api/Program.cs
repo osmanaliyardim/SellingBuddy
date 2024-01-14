@@ -1,3 +1,4 @@
+using RabbitMQ.Client;
 using SellingBuddy.BasketService.Api.Core.Application.Repository;
 using SellingBuddy.BasketService.Api.Core.Application.Services;
 using SellingBuddy.BasketService.Api.Extensions;
@@ -55,7 +56,12 @@ builder.Services.AddSingleton<IEventBus>(sp =>
         ConnectionRetryCount = 5,
         EventNameSuffix = "IntegrationEvent",
         SubscriberClientAppName = "BasketService",
-        EventBusType = EventBusType.RabbitMQ
+        EventBusType = EventBusType.RabbitMQ,
+        Connection = new ConnectionFactory()
+        {
+            HostName = "crabbitmq"
+            //Port = is the same
+        }
     };
 
     return EventBusFactory.Create(config, sp);
@@ -66,6 +72,15 @@ builder.Services.AddTransient<OrderCreatedIntegrationEventHandler>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Host.ConfigureServices((context, services) =>
+{
+    services.Configure<ServiceProviderOptions>(options =>
+    {
+        options.ValidateOnBuild = false;
+        options.ValidateScopes = false;
+    });
+});
 
 var app = builder.Build();
 
@@ -84,7 +99,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
-app.RegisterWithConsul(lifetime);
+app.RegisterWithConsul(lifetime, builder.Configuration);
 
 IEventBus eventBus = app.Services.GetRequiredService<IEventBus>();
 eventBus.Subscribe<OrderCreatedIntegrationEvent, OrderCreatedIntegrationEventHandler>();

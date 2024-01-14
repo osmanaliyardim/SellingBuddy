@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
 using SellingBuddy.EventBus.Base;
 using SellingBuddy.EventBus.Base.Abstraction;
 using SellingBuddy.EventBus.Factory;
@@ -47,7 +48,12 @@ void ConfigureServices(ServiceCollection services)
             ConnectionRetryCount = 5,
             EventNameSuffix = "IntegrationEvent",
             SubscriberClientAppName = "NotificationService",
-            EventBusType = EventBusType.RabbitMQ
+            EventBusType = EventBusType.RabbitMQ,
+            Connection = new ConnectionFactory()
+            {
+                HostName = "crabbitmq"
+                //Port = is the same
+            }
         };
 
         return EventBusFactory.Create(config, sp);

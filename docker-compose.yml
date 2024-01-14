@@ -1,0 +1,67 @@
+version: '3.4'
+
+services:
+  sellingbuddy.orderservice.api:
+    container_name: corderservice
+    image: ${DOCKER_REGISTRY-}orderserviceapi
+    build:
+      context: .
+      dockerfile: src/Services/OrderService/SellingBuddy.OrderService.Api/Dockerfile
+
+  sellingbuddy.notificationservice.console:
+    container_name: cnotificationservice
+    image: ${DOCKER_REGISTRY-}notificationserviceconsole
+    build:
+      context: .
+      dockerfile: src/Services/NotificationService/SellingBuddy.NotificationService.Console/Dockerfile
+
+  sellingbuddy.web.apigateway:
+    container_name: capigateway
+    image: ${DOCKER_REGISTRY-}webapigateway
+    build:
+      context: .
+      dockerfile: src/ApiGateways/WebApiGateway/SellingBuddy.Web.ApiGateway/Dockerfile
+
+  sellingbuddy.basketservice.api:
+    container_name: cbasketservice
+    image: ${DOCKER_REGISTRY-}basketserviceapi
+    build:
+      context: .
+      dockerfile: src/Services/BasketService/SellingBuddy.BasketService.Api/Dockerfile
+
+  sellingbuddy.catalogservice.api:
+    container_name: ccatalogservice
+    image: ${DOCKER_REGISTRY-}catalogserviceapi
+    build:
+      context: .
+      dockerfile: src/Services/CatalogService/SellingBuddy.CatalogService.Api/Dockerfile
+
+  sellingbuddy.paymentservice.api:
+    container_name: cpaymentservice
+    image: ${DOCKER_REGISTRY-}paymentserviceapi
+    build:
+      context: .
+      dockerfile: src/Services/PaymentService/SellingBuddy.PaymentService.Api/Dockerfile
+
+  sellingbuddy.identityservice.api:
+    container_name: cidentityservice
+    image: ${DOCKER_REGISTRY-}identityserviceapi
+    build:
+      context: .
+      dockerfile: src/Services/IdentityService/SellingBuddy.IdentityService.Api/Dockerfile
+  
+  sredis:
+    container_name: credis
+    image: redis
+
+  srabbitmq:
+    container_name: crabbitmq
+    image: rabbitmq:3-management
+
+  ssqlserver:
+    container_name: csqlserver
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  sconsul:
+    container_name: cconsul
+    image: consul:1.15.2

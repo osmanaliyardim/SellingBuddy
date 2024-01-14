@@ -1,6 +1,4 @@
 ﻿using Consul;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Http.Features;
 
 namespace SellingBuddy.BasketService.Api.Extensions;
 
@@ -17,7 +15,7 @@ public static class ConsuleRegistration
         return services;
     }
 
-    public static IApplicationBuilder RegisterWithConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime)
+    public static IApplicationBuilder RegisterWithConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime, IConfiguration configuration)
     {
         var consulClient = app.ApplicationServices.GetRequiredService<IConsulClient>();
 
@@ -25,25 +23,18 @@ public static class ConsuleRegistration
 
         var logger = loggingFactory.CreateLogger<IApplicationBuilder>();
 
-        // Get server ip address
-        var features = app.Properties["server.Features"] as FeatureCollection;
-        var addresses = features.Get<IServerAddressesFeature>();
-        if (addresses.Addresses.Count == 0)
-        {
-            // Add the default address to the IServerAddressesFeature if it does not exist
-            addresses.Addresses.Add("http://localhost:5003");
-        }
-        var address = addresses.Addresses.First();
-
         // Register service with consul
-        var uri = new Uri(address);
+        var uri = configuration.GetValue<Uri>("ConsulConfig:ServiceAddress");
+        var serviceName = configuration.GetValue<string>("ConsulConfig:ServiceName");
+        var serviceId = configuration.GetValue<string>("ConsulConfig:ServiceId");
+
         var registration = new AgentServiceRegistration()
         {
-            ID = "BasketService",
-            Name = "BasketService",
+            ID = serviceId ?? "BasketService",
+            Name = serviceName ?? "BasketService",
             Address = uri.Host,
             Port = uri.Port,
-            Tags = new[] { "Basket Service", "Basket" }
+            Tags = new[] { serviceName, serviceId }
         };
 
         logger.LogInformation("Registering service with Consul..");

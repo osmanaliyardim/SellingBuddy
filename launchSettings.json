@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "sellingbuddy.orderservice.api": "StartDebugging",
+        "sellingbuddy.notificationservice.console": "StartDebugging",
+        "sellingbuddy.web.apigateway": "StartDebugging",
+        "sellingbuddy.basketservice.api": "StartDebugging",
+        "sellingbuddy.catalogservice.api": "StartDebugging",
+        "sellingbuddy.paymentservice.api": "StartDebugging",
+        "sellingbuddy.identityservice.api": "StartDebugging"
+      }
+    }
+  }
+}

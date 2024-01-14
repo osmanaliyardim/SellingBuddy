@@ -52,9 +52,9 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000",
+    "BaseUrl": "http://sellingbuddy.web.apigateway:5000",
     "ServiceDiscoveryProvider": {
-      "Host": "localhost",
+      "Host": "cconsul",
       "Port": 8500,
       "Type": "Consul"
     }

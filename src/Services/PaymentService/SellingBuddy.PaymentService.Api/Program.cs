@@ -1,3 +1,4 @@
+using RabbitMQ.Client;
 using SellingBuddy.EventBus.Base;
 using SellingBuddy.EventBus.Base.Abstraction;
 using SellingBuddy.EventBus.Factory;
@@ -42,7 +43,12 @@ builder.Services.AddSingleton<IEventBus>(sp =>
         ConnectionRetryCount = 5,
         EventNameSuffix = "IntegrationEvent",
         SubscriberClientAppName = "PaymentService",
-        EventBusType = EventBusType.RabbitMQ
+        EventBusType = EventBusType.RabbitMQ,
+        Connection = new ConnectionFactory()
+        {
+            HostName = "crabbitmq"
+            //Port = is the same
+        }
     };
 
     return EventBusFactory.Create(config, sp);
@@ -51,6 +57,15 @@ builder.Services.AddSingleton<IEventBus>(sp =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Host.ConfigureServices((context, services) =>
+{
+    services.Configure<ServiceProviderOptions>(options =>
+    {
+        options.ValidateOnBuild = false;
+        options.ValidateScopes = false;
+    });
+});
 
 var app = builder.Build();
 

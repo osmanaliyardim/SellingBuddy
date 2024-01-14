@@ -14,7 +14,7 @@ public class OrderDbContextDesignFactory : IDesignTimeDbContextFactory<OrderDbCo
 
     public OrderDbContext CreateDbContext(string[] args)
     {
-        var connectionString = "Server=OSMAN_ALI;Database=order;Trusted_Connection=True;TrustServerCertificate=True";
+        var connectionString = "Server=csqlserver;Database=order;Trusted_Connection=True;TrustServerCertificate=True";
 
         var optionsBuilder = new DbContextOptionsBuilder<OrderDbContext>().UseSqlServer(connectionString);
 

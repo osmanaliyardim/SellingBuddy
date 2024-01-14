@@ -38,6 +38,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Host.ConfigureServices((context, services) =>
+{
+    services.Configure<ServiceProviderOptions>(options =>
+    {
+        options.ValidateOnBuild = false;
+        options.ValidateScopes = false;
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -55,6 +64,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
-app.RegisterWithConsul(lifetime);
+app.RegisterWithConsul(lifetime, builder.Configuration);
 
 app.Run();

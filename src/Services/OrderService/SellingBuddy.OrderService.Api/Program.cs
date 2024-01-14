@@ -10,6 +10,7 @@ using SellingBuddy.EventBus.Base.Abstraction;
 using SellingBuddy.OrderService.Api.IntegrationEvents.Events;
 using SellingBuddy.OrderService.Api.IntegrationEvents.EventHandlers;
 using Serilog;
+using RabbitMQ.Client;
 
 var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
@@ -45,6 +46,15 @@ builder.Services.AddSwaggerGen();
 
 ConfigureService(builder.Services);
 
+builder.Host.ConfigureServices((context, services) =>
+{
+    services.Configure<ServiceProviderOptions>(options =>
+    {
+        options.ValidateOnBuild = false;
+        options.ValidateScopes = false;
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -68,6 +78,9 @@ app.MigrateDbContext<OrderDbContext>((context, services) =>
 
 ConfigureEventBusForSubscription(app);
 
+var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
+app.RegisterWithConsul(lifetime, builder.Configuration);
+
 app.Run();
 
 void ConfigureService(IServiceCollection services)
@@ -85,7 +98,12 @@ void ConfigureService(IServiceCollection services)
             ConnectionRetryCount = 5,
             EventNameSuffix = "IntegrationEvent",
             SubscriberClientAppName = "OrderService",
-            EventBusType = EventBusType.RabbitMQ
+            EventBusType = EventBusType.RabbitMQ,
+            Connection = new ConnectionFactory()
+            {
+                HostName = "crabbitmq"
+                //Port = is the same
+            }
         };
 
         return EventBusFactory.Create(config, sp);

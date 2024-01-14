@@ -1,6 +1,4 @@
 ﻿using Consul;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.AspNetCore.Http.Features;
 
 namespace SellingBuddy.OrderService.Api.Extensions.Registration.ServiceDiscovery;
 
@@ -17,7 +15,7 @@ public static class ConsulRegistration
         return services;
     }
 
-    public static IApplicationBuilder RegisterWithConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime)
+    public static IApplicationBuilder RegisterWithConsul(this IApplicationBuilder app, IHostApplicationLifetime lifetime, IConfiguration configuration)
     {
         var consulClient = app.ApplicationServices.GetRequiredService<IConsulClient>();
 
@@ -25,29 +23,27 @@ public static class ConsulRegistration
 
         var logger = loggingFactory.CreateLogger<IApplicationBuilder>();
 
-        // Get server IP address
-        var features = app.Properties["server.Features"] as FeatureCollection;
-        var addresses = features.Get<IServerAddressesFeature>();
-        var address = addresses.Addresses.First();
-
         // Register service with consul
-        var uri = new Uri(address);
+        var uri = configuration.GetValue<Uri>("ConsulConfig:ServiceAddress");
+        var serviceName = configuration.GetValue<string>("ConsulConfig:ServiceName");
+        var serviceId = configuration.GetValue<string>("ConsulConfig:ServiceId");
+
         var registration = new AgentServiceRegistration()
         {
-            ID = $"OrderService",
-            Name = "OrderService",
-            Address = $"{uri.Host}",
+            ID = serviceId ?? "OrderService",
+            Name = serviceName ?? "OrderService",
+            Address = uri.Host,
             Port = uri.Port,
-            Tags = new[] { "Ordering Service", "Order" }
+            Tags = new[] { serviceName, serviceId }
         };
 
-        logger.LogInformation("Registering with Consul");
+        logger.LogInformation("Registering service with Consul..");
         consulClient.Agent.ServiceDeregister(registration.ID).Wait();
         consulClient.Agent.ServiceRegister(registration).Wait();
 
         lifetime.ApplicationStopping.Register(() =>
         {
-            logger.LogInformation("Deregistering from Consul");
+            logger.LogInformation("Deregistering service from Consul..");
             consulClient.Agent.ServiceDeregister(registration.ID).Wait();
         });
 

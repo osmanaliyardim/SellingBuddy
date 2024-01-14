@@ -1,0 +1,190 @@
+version: '3.4'
+
+services:
+  sellingbuddy.orderservice.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      - ConsulConfig__Address=http://sconsul:8500
+      - ConsulConfig__ServiceAddress=http://corderservice:5002
+      - ConsulConfig__ServiceName=OrderService
+      - ConsulConfig__ServiceId=Order 
+    ports:
+      - "5002:5002"
+    networks:
+      - net_backendservices
+    depends_on:
+      - sellingbuddy.web.apigateway
+      - ssqlserver
+      - sconsul
+      - srabbitmq
+    external_links:
+      - graylog
+      - sconsul 
+      - srabbitmq
+      - ssqlserver
+  
+  sellingbuddy.web.apigateway:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    ports:
+      - "5000:5000"
+    networks:
+      - net_apigateway
+      - net_backendservices
+
+  sellingbuddy.basketservice.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5003
+      - ConsulConfig__Address=http://sconsul:8500
+      - ConsulConfig__ServiceAddress=http://cbasketservice:5003
+      - ConsulConfig__ServiceName=BasketService
+      - ConsulConfig__ServiceId=Basket
+    ports:
+      - "5003:5003"
+    networks:
+      - net_backendservices
+    depends_on:
+      - sellingbuddy.web.apigateway
+      - ssqlserver
+      - sconsul
+      - srabbitmq
+    external_links:
+      - graylog
+      - sconsul 
+      - srabbitmq
+      - ssqlserver
+
+  sellingbuddy.catalogservice.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5004
+      - ConsulConfig__Address=http://sconsul:8500
+      - ConsulConfig__ServiceAddress=http://ccatalogservice:5004
+      - ConsulConfig__ServiceName=CatalogService
+      - ConsulConfig__ServiceId=Catalog
+    ports:
+      - "5004:5004"
+    networks:
+      - net_backendservices
+    depends_on:
+      - sellingbuddy.web.apigateway
+      - ssqlserver
+      - sconsul
+      - srabbitmq
+    external_links:
+      - graylog
+      - sconsul 
+      - srabbitmq
+      - ssqlserver
+
+  sellingbuddy.paymentservice.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5001
+    ports:
+      - "5001"
+    networks:
+      - net_backendservices
+    depends_on:
+      - srabbitmq
+    external_links:
+      - graylog
+      - sconsul 
+      - srabbitmq
+
+  sellingbuddy.identityservice.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5005
+      - ConsulConfig__Address=http://sconsul:8500
+      - ConsulConfig__ServiceAddress=http://cidentityservice:5005
+      - ConsulConfig__ServiceName=IdentityService
+      - ConsulConfig__ServiceId=Identity 
+    ports:
+      - "5005:5005"
+    networks:
+      - net_backendservices
+    depends_on:
+      - sellingbuddy.web.apigateway
+      - ssqlserver
+      - sconsul
+      - srabbitmq
+    external_links:
+      - graylog
+      - sconsul 
+      - srabbitmq
+      - ssqlserver
+  
+  sellingbuddy.notificationservice.console:
+    tty: true
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - net_backendservices
+    depends_on:
+      - srabbitmq
+    external_links:
+      - graylog
+      - sconsul 
+      - srabbitmq
+
+  sconsul:
+    ports:
+      - 8500:8500
+      - 8600:8600/tcp
+      - 8600:8600/udp
+    networks:
+      - net_apigateway
+      - net_frontend
+      - net_backendservices
+
+  ssqlserver:
+    user: root
+    ports:
+      - 1433:1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=OsmanAli123!
+    volumes:
+      - sqlserver_data:/var/opt/mssql/data
+      - sqlserver_log:/var/opt/mssql/log
+    networks:
+      - net_backendservices
+
+  srabbitmq:
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    networks:
+      - net_backendservices
+      - net_apigateway
+      - net_frontend
+
+  sredis:
+    ports:
+      - 6379:6379
+    volumes:
+      - /opt/app_data/redis/:/data
+    networks:
+      - net_backendservices
+
+networks:
+  net_apigateway:
+    driver: bridge
+    external: true
+  net_frontend:
+    driver: bridge
+    external: true
+  net_backendservices:
+    driver: bridge
+    external: true
+
+volumes:
+  rabbitmq:
+  sqlserver_data:
+  sqlserver_log:
