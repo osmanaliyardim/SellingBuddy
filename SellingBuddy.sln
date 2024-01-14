@@ -93,6 +93,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "redis", "redis", "{C122D5FB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sqlserver", "sqlserver", "{EAF0EC74-197E-4E57-9E8B-353E1E87EA73}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "graylog", "graylog", "{A67B0284-8B6D-45DE-B17C-A51193E13B68}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose-files\graylog\docker-compose.yml = docker-compose-files\graylog\docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -203,6 +208,7 @@ Global
 		{612A49F7-3955-4562-B16A-426E3901CEE2} = {6F1F6734-F66E-445F-99CA-B858697A097D}
 		{C122D5FB-3352-47A7-9652-7CBCAAC560C5} = {6F1F6734-F66E-445F-99CA-B858697A097D}
 		{EAF0EC74-197E-4E57-9E8B-353E1E87EA73} = {6F1F6734-F66E-445F-99CA-B858697A097D}
+		{A67B0284-8B6D-45DE-B17C-A51193E13B68} = {6F1F6734-F66E-445F-99CA-B858697A097D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {766D58FB-D4BC-4FB1-A051-A4A9F28D8B81}

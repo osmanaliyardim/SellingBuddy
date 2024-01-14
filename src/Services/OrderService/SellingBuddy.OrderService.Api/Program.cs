@@ -9,21 +9,41 @@ using SellingBuddy.EventBus.Factory;
 using SellingBuddy.EventBus.Base.Abstraction;
 using SellingBuddy.OrderService.Api.IntegrationEvents.Events;
 using SellingBuddy.OrderService.Api.IntegrationEvents.EventHandlers;
+using Serilog;
+
+var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile($"Configurations/appsettings.json", optional: false)
+    .AddJsonFile($"Configurations/appsettings.{env}.json", optional: true)
+    .AddEnvironmentVariables()
+    .Build();
+
+var serilogConfiguration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile($"Configurations/serilog.json", optional: false)
+    .AddJsonFile($"Configurations/serilog.{env}.json", optional: true)
+    .AddEnvironmentVariables()
+    .Build();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(serilogConfiguration)
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Host.ConfigureAppConfiguration(i => i.AddConfiguration(configuration));
+builder.Host.ConfigureLogging(i => i.ClearProviders());
+builder.Host.UseSerilog();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 ConfigureService(builder.Services);
-
-builder.Configuration
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddEnvironmentVariables();
 
 var app = builder.Build();
 
@@ -53,7 +73,6 @@ app.Run();
 void ConfigureService(IServiceCollection services)
 {
     services
-        .AddLogging(configure => configure.AddConsole())
         .AddApplicationRegistration()
         .AddPersistenceRegistration(builder.Configuration)
         .ConfigureEventHandlers()

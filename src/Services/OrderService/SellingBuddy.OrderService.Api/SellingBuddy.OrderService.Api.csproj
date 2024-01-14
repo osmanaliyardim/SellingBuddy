@@ -12,11 +12,17 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.2.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	<PackageReference Include="Serilog" Version="3.1.1" />
+	<PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+	<PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+	<PackageReference Include="Serilog.Sinks.Graylog" Version="3.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\SellingBuddy.EventBus.Base\SellingBuddy.EventBus.Base.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\SellingBuddy.EventBus.Factory\SellingBuddy.EventBus.Factory.csproj" />
     <ProjectReference Include="..\SellingBuddy.OrderService.Application\SellingBuddy.OrderService.Application.csproj" />
     <ProjectReference Include="..\SellingBuddy.OrderService.Domain\SellingBuddy.OrderService.Domain.csproj" />
     <ProjectReference Include="..\SellingBuddy.OrderService.Infrastructure\SellingBuddy.OrderService.Infrastructure.csproj" />

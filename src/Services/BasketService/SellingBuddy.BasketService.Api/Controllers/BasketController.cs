@@ -1,5 +1,4 @@
-﻿using Consul;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SellingBuddy.BasketService.Api.Core.Application.Repository;
 using SellingBuddy.BasketService.Api.Core.Application.Services;
